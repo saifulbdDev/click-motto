@@ -8,13 +8,13 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Loader from "./ui/Loader";
-
+import ImageGallery from "./ImageGallery";
+import VideoGallery from "./VideoGallery";
+import Dropdown from "./ui/Dropdown";
 const Gallery = () => {
   const [category, setCategory] = useState("All");
 
   const { data, isFetching } = useGetDataListQuery(category);
-
-  console.log(data?.photos, "data");
 
   const columnsCountBreakPoints = { 350: 1, 750: 2, 900: 3 };
   const container = useRef(null);
@@ -47,7 +47,7 @@ const Gallery = () => {
   );
   return (
     <div className="py-0 px-8" ref={container}>
-      <nav className="flex justify-between items-center mt-5 gallery-nav opacity-0 translate-y-[50px]">
+      <nav className="flex justify-between relative items-center mt-5 z-[9000] gallery-nav opacity-0 translate-y-[50px]">
         <ul className="flex gap-3 items-center m-0 p-0 text-xl font-medium mr-5 cursor-pointer text-[#707070]">
           {categories.map((item) => (
             <li
@@ -55,31 +55,36 @@ const Gallery = () => {
               className={
                 item?.name === category ? `text-black` : `text-gray-600`
               }
-              onClick={(e) => setCategory(item?.name)}>
+              onClick={() => setCategory(item?.name)}>
               {item?.name}
             </li>
           ))}
         </ul>
-        <div className="relative group">
-          <p className="m-0 text-black text-xl font-medium cursor-pointer hidden md:flex items-center gap-2  ">
-            Recommended <AiOutlineCaretDown className="text-xs " />
-          </p>
-          <div>
-            <ul className="absolute group:hover-block top-6 right-0 bg-white w-52 pt-4 pb-2 hidden  font-normal text-lg text-end  ">
-              <li className="hover:bg-[#dfdfdf] hover:text-black cursor-pointer">
-                Most Recent
-              </li>
-              <li className="hover:bg-[#dfdfdf] hover:text-black cursor-pointer">
-                Most Viewed
-              </li>
-              <li className="hover:bg-[#dfdfdf] hover:text-black cursor-pointer">
-                Most Downloaded
-              </li>
-              <li className="hover:bg-[#dfdfdf] hover:text-black cursor-pointer">
-                Most Appreciated
-              </li>
-            </ul>
-          </div>
+
+        <div className="relative group z-[9999]">
+          <Dropdown>
+            <Dropdown.Button>
+              <p className="m-0 text-black text-xl font-medium cursor-pointer hidden md:flex items-center gap-2  ">
+                Recommended <AiOutlineCaretDown className="text-xs " />
+              </p>
+            </Dropdown.Button>
+            <Dropdown.Content dropdownClass="bg-white   lg:left-auto right-0 pr-3">
+              <Dropdown.List className="text-right">
+                <Dropdown.Item className="hover:bg-gray-300 text-base py-1 px-1  hover:text-black cursor-pointer">
+                  Most Recent
+                </Dropdown.Item>
+                <Dropdown.Item className="hover:bg-gray-300 text-base py-1 px-1 hover:text-black cursor-pointer">
+                  Most Viewed
+                </Dropdown.Item>
+                <Dropdown.Item className="hover:bg-gray-300 text-base py-1 px-1 hover:text-black cursor-pointer">
+                  Most Downloaded
+                </Dropdown.Item>
+                <Dropdown.Item className="hover:bg-gray-300 text-base py-1 px-1 hover:text-black cursor-pointer">
+                  Most Appreciated
+                </Dropdown.Item>
+              </Dropdown.List>
+            </Dropdown.Content>
+          </Dropdown>
         </div>
       </nav>
 
@@ -92,28 +97,20 @@ const Gallery = () => {
           <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}>
             <Masonry gutter="15px">
               {data?.photos?.map((image) => (
-                <div className="w-full overflow-hidden" key={image.id}>
-                  <img
-                    src={image?.src?.large}
-                    srcSet={`${image?.src?.tiny} 280w,
-              ${image?.src?.small} 130w,
-              ${image?.src?.medium} 350w,
-              ${image?.src?.large} 940w,
-              ${image?.src?.large2x} 1880w`}
-                    sizes="(max-width: 600px) 280px,   /* for small screens */
-           (max-width: 960px) 130px,   /* for medium screens */
-           (max-width: 1280px) 350px,  /* for large screens */
-           940px" /* default size for larger screens */
-                    style={{ width: "100%" }}
-                    alt="gallery_img"
-                    className="hover:scale-125 duration-700"
-                  />
-                </div>
+                <ImageGallery key={image.id} image={image} />
+              ))}
+            </Masonry>
+          </ResponsiveMasonry>
+        ) : data?.videos?.length ? (
+          <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}>
+            <Masonry gutter="15px">
+              {data?.videos?.map((video) => (
+                <VideoGallery key={video.id} video={video} />
               ))}
             </Masonry>
           </ResponsiveMasonry>
         ) : (
-          ""
+          <p>No data available.</p>
         )}
       </div>
     </div>

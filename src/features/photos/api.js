@@ -4,6 +4,7 @@ export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({   
     getDataList: builder.query({
       query: (payload) => {
+        console.log(payload, 'hhdh')
         let url = payload === "Videos" ? 'videos/search?query=nature&per_page=15' : `search?query=${payload?.toLowerCase()}&per_page=20`
         return {
           url: url,

@@ -1,6 +1,5 @@
 import logo from "/images/logo.png";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import { FaSortUp } from "react-icons/fa";
 import { CiMenuFries } from "react-icons/ci";
 import { useState } from "react";
 import Facebook from "/images/facebook.png";
@@ -10,14 +9,11 @@ import Pinterest from "/images/pinterest.png";
 import Veddit from "/images/veddit.png";
 import Meddit from "/images/meddit.png";
 import NavItem from "./NavItem";
-
-
-import DropdownItem from "./DropdownItem";
-
+import Dropdown from "./Dropdown";
+import { FaSortUp } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
-
 const Navbar = () => {
-  const [showDropDown, setShowDropDown] = useState(false);
+
   const [showFullNav, setShowFullNav] = useState(false);
 
   const socialIcons = [
@@ -47,9 +43,7 @@ const Navbar = () => {
     }
   ];
 
-  const dropDownToggle = () => {
-    setShowDropDown(!showDropDown);
-  };
+
   const fullNavToggle = () => {
     setShowFullNav(!showFullNav);
   };
@@ -65,45 +59,48 @@ const Navbar = () => {
         <NavItem label="Explore" active={true} />
         <NavItem label="Discover" />
         <NavItem label="For Professionals" />
-        <li className="relative text-gray lg:ml-6 px-2.5 py-1 lg:p-0">
-          <BiDotsHorizontalRounded
-            className="text-2xl cursor-pointer"
-            onClick={dropDownToggle}
-          />
-          <ul
-            className={`absolute top-8 left-0 w-full lg:top-11 lg:-left-2 lg:w-[218px] bg-gray-900 pt-1 ${
-              showDropDown ? "block" : "hidden"
-            }`}>
-            <DropdownItem label="About Click Motto" />
-            <DropdownItem label="Pricing" />
-            <DropdownItem label="License" />
-            <DropdownItem label="Partnerships" />
-            <DropdownItem label="Blog" />
-            <DropdownItem label="Help" />
-            <DropdownItem label="Join The Team" />
-            <ul className="flex justify-between space-x-2 items-center py-2 px-3 border-t border-slate-400">
+        <li className="relative text-gray lg:ml-6 px-2.5 py-1 lg:p-0">        
+          <Dropdown >
+            <Dropdown.Button>
+              <BiDotsHorizontalRounded   />
+            </Dropdown.Button>
+            <Dropdown.Content dropdownClass="bg-gray-900 ">
+              <Dropdown.List>
               <FaSortUp className="text-gray-900 absolute -top-2.5 left-2 text-2xl" />
-              {socialIcons.map((item, index) => (
-                <li key={"nav-icons-" + index}>
-                  <a href={item.link}>
-                    <img src={item.icon} height={18} alt="Social Icons" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </ul>
+                <Dropdown.Item>About Click Motto</Dropdown.Item>
+                <Dropdown.Item>Pricing</Dropdown.Item>
+                <Dropdown.Item>License</Dropdown.Item>
+                <Dropdown.Item>Partnerships</Dropdown.Item>
+                <Dropdown.Item>Blog</Dropdown.Item>
+                <Dropdown.Item>Help</Dropdown.Item>
+                <Dropdown.Item>Join The Team</Dropdown.Item>
+                <Dropdown.Item className='px-0 py-1.5'>
+                  <ul className="flex justify-between space-x-3 items-center py-2 px-3 border-t border-gray-400">
+                   
+                    {socialIcons.map((item, index) => (
+                      <li key={"nav-icons-" + index}>
+                        <a href={item.link}>
+                          <img src={item.icon} height={14} alt="Social Icons" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </Dropdown.Item>
+              </Dropdown.List>
+            </Dropdown.Content>
+          </Dropdown>
         </li>
         <li className="lg:ml-6 px-2.5 py-1 lg:p-0">
-          <button className="text-gray-600 border border-gray-600 rounded-md bg-transparent py-2 px-2.5 font-medium duration-500 hover:bg-gray-600 hover:text-white">
+          <button className="text-gray-600 border border-gray-600 rounded-md bg-transparent py-1.5 px-2.5 font-medium duration-500 hover:bg-gray-600 hover:text-white">
             Submit Photos
           </button>
         </li>
         <li className="lg:ml-6">
-          <div className="lg:h-8 lg:w-[2px] lg:m-0 bg-gray w-full h-[1px] mt-2.5 mb-1"></div>
+          <div className="lg:h-8 lg:w-[2px] lg:m-0 bg-gray-400 w-full h-[1px] mt-2.5 mb-1"></div>
         </li>
         <NavItem label="Login" />
         <li className="lg:ml-6 px-2.5 py-1 lg:p-0">
-          <button className="text-white border border-orange rounded-md bg-orange-500 py-2 px-2.5 font-medium duration-500 hover:bg-white hover:text-orange-500">
+          <button className="text-white border border-orange-500 rounded-md bg-orange-500 py-1.5 px-2.5 font-medium duration-500 hover:bg-white hover:text-orange-500">
             Join Free
           </button>
         </li>
