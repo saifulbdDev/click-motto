@@ -32,7 +32,7 @@ Ensure you have Node.js & npm (Node Package Manager) installed on your machine.
 
 ## Running the Development Server
 
-To start the development server and run the Next.js app, follow these steps:
+To start the development server and run the React + Vite, follow these steps:
 
 ```bash
 npm run dev
