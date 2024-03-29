@@ -42,7 +42,7 @@ const Banner = () => {
             <b>Recommended: </b>
             <span className="opacity-70">
               {" "}
-              Summer, Food, Covid-19, React State, Love
+              Summer, Food, Covid-19, Real State, Love
             </span>
           </p>
           <p className="opacity-0 translate-y-[-200px] text-right mt-40 hidden md:block">
